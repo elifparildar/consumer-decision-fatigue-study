@@ -21,3 +21,8 @@ Due to ethical considerations and participant privacy, the raw dataset is not pu
 
 ## Files
 - `consumer project.r`: main analysis script
+
+## Key Results (Summary)
+- Higher choice conditions were associated with increased decision fatigue and longer decision times.
+- Adding a popularity cue reduced perceived difficulty and helped participants feel more confident about their decision.
+- Overall, the findings suggest that more options are not always better, and simple cues can ease the decision process.
