@@ -1,12 +1,7 @@
 # =========================================================
-# CONSUMER PROJECT
-# =========================================================
-# Inputs needed:
-# 1) Clean CSV exported from SPSS (your filtered/clean dataset)
-# Required columns in CSV:
-#   condition (1/2/3),
-#   Fatigue_score, Satisfaction_score, Intention_score,
-#   Decision_Time
+# Consumer Decision Fatigue Project
+# Main analysis script
+# Data not publicly shared due to participant privacy
 # =========================================================
 
 # 0) Packages 
@@ -17,8 +12,8 @@ library(ggplot2)
 
 
 #  2) Read data
-# CHANGE ONLY THIS PATH:
-df <- read.csv("/Users/elifparildar/Desktop/project_final_clean.csv")
+# Data file not included due to ethical considerations
+# data <- read.csv("raw_data.csv")
 
 # Quick check
 cat("Rows:", nrow(df), "| Cols:", ncol(df), "\n")
@@ -138,16 +133,16 @@ table_desc <- df_clean %>%
 cat("\nTable 1 — Descriptives by condition:\n")
 print(table_desc)
 
-write.csv(table_desc, "Table1_Descriptives_ByCondition.csv", row.names = FALSE)
+# Output files are not saved in this public repository
+# due to participant privacy and ethical considerations.
+# write.csv(table_desc, "Table1_Descriptives_ByCondition.csv", row.names = FALSE)
 
-# ---------- 10) Save cleaned analysis dataset too (nice for reproducibility) ----------
-write.csv(df_clean, "AnalysisDataset_df_clean.csv", row.names = FALSE)
+# ---------- 10) Save cleaned analysis dataset ----------
+# The cleaned analysis dataset is not shared publicly.
+# write.csv(df_clean, "AnalysisDataset_df_clean.csv", row.names = FALSE)
 
-cat("\n✅ DONE. Files created in:\n", getwd(), "\n")
-cat(" - Figure1_Main_Outcomes.(png/pdf)\n")
-cat(" - Figure2_DecisionTime_Log.(png/pdf)\n")
-cat(" - Table1_Descriptives_ByCondition.csv\n")
-cat(" - AnalysisDataset_df_clean.csv\n")
+cat("\n✅ DONE. Analysis completed.\n")
+
 
 
 
