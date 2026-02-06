@@ -1,5 +1,5 @@
 # =========================================================
-# CONSUMER PROJECT — CLEAN MASTER SCRIPT (R)
+# CONSUMER PROJECT
 # =========================================================
 # Inputs needed:
 # 1) Clean CSV exported from SPSS (your filtered/clean dataset)
@@ -9,21 +9,21 @@
 #   Decision_Time
 # =========================================================
 
-# ---------- 0) Packages ----------
+# 0) Packages 
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 
 
 
-# ---------- 2) Read data ----------
+#  2) Read data
 # CHANGE ONLY THIS PATH:
 df <- read.csv("/Users/elifparildar/Desktop/project_final_clean.csv")
 
 # Quick check
 cat("Rows:", nrow(df), "| Cols:", ncol(df), "\n")
 
-# ---------- 3) Keep only what we need (clean dataset for analysis/figures) ----------
+#  3) Keep only what we need (clean dataset for analysis/figures) 
 needed_cols <- c("condition", "Fatigue_score", "Satisfaction_score", "Intention_score", "Decision_Time")
 missing_cols <- setdiff(needed_cols, names(df))
 if (length(missing_cols) > 0) {
@@ -40,7 +40,7 @@ df_clean <- df %>%
     Decision_Time = as.numeric(Decision_Time)
   )
 
-# ---------- 4) Condition labels (1=A, 2=B, 3=C) ----------
+#  4) Condition labels (1=A, 2=B, 3=C) 
 #  1=A (High Choice), 2=B (High Choice + Popular), 3=C (Low Choice)
 df_clean <- df_clean %>%
   mutate(
@@ -55,14 +55,14 @@ df_clean <- df_clean %>%
 cat("\nGroup counts:\n")
 print(table(df_clean$condition))
 
-# ---------- 5) Create log-transformed decision time ----------
+#  5) Create log-transformed decision time 
 # +1 prevents log(0) problems 
 df_clean <- df_clean %>%
   mutate(
     log_decision_time = log(Decision_Time + 1)
   )
 
-# ---------- 6) Long format for 3 outcomes (for the main figure) ----------
+# 6) Long format for 3 outcomes (for the main figure) 
 df_long <- df_clean %>%
   pivot_longer(
     cols = c(Fatigue_score, Satisfaction_score, Intention_score),
@@ -78,7 +78,7 @@ df_long <- df_clean %>%
     )
   )
 
-# ---------- 7) FIGURE 1: Main outcomes (Mean ± SE) ----------
+#  7) FIGURE 1: Main outcomes (Mean ± SE) 
 p_main <- ggplot(df_long, aes(x = condition, y = Score, fill = condition)) +
   stat_summary(fun = mean, geom = "bar", alpha = 0.85) +
   stat_summary(fun.data = mean_se, geom = "errorbar", width = 0.18) +
@@ -100,7 +100,7 @@ print(p_main)
 ggsave("Figure1_Main_Outcomes.png", p_main, width = 11, height = 5.5, dpi = 300)
 ggsave("Figure1_Main_Outcomes.pdf", p_main, width = 11, height = 5.5)
 
-# ---------- 8) FIGURE 2: Decision time (log-transformed) ----------
+#  8) FIGURE 2: Decision time (log-transformed)
 p_time <- ggplot(df_clean, aes(x = condition, y = log_decision_time, fill = condition)) +
   geom_boxplot(alpha = 0.75, outlier.alpha = 0.6) +
   labs(
@@ -119,7 +119,7 @@ print(p_time)
 ggsave("Figure2_DecisionTime_Log.png", p_time, width = 7.5, height = 5, dpi = 300)
 ggsave("Figure2_DecisionTime_Log.pdf", p_time, width = 7.5, height = 5)
 
-# ---------- 9) TABLE 1: Descriptives by condition (Mean & SD) ----------
+#9) TABLE 1: Descriptives by condition (Mean & SD)
 table_desc <- df_clean %>%
   group_by(condition) %>%
   summarise(
