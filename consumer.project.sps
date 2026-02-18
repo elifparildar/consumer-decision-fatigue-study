@@ -1,5 +1,4 @@
 ﻿* Encoding: UTF-8.
-#gruplara ayırdık her conditionı
 DATASET ACTIVATE DataSet2.
 IF  (NOT MISSING(DecisionFatigue_A_1)) condition=1.
 EXECUTE.
@@ -10,7 +9,6 @@ EXECUTE.
 IF  (NOT MISSING(DecisionFatigue_C_1)) condition=3.
 EXECUTE.
 
-#missing olanları attık 
 USE ALL.
 COMPUTE filter_$=(NOT MISSING(condition)).
 VARIABLE LABELS filter_$ 'NOT MISSING(condition) (FILTER)'.
@@ -24,10 +22,8 @@ USE ALL.
 SELECT IF (NOT MISSING(condition)).
 EXECUTE.
 
-#abc olcak şekilde sıraladık 
 SORT CASES BY condition(A).
 
-# attenion checki geçemeyenleri attık 
 FILTER OFF.
 USE ALL.
 SELECT IF ((condition = 1 AND Attention_A = 1)OR(condition = 2 AND Attention_B = 1)OR(condition = 3 
@@ -35,7 +31,6 @@ SELECT IF ((condition = 1 AND Attention_A = 1)OR(condition = 2 AND Attention_B =
 EXECUTE.
 
 
-decision fatigue için mean hesapladık 
 
 COMPUTE Fatigue_A=MEAN(DecisionFatigue_A_1,DecisionFatigue_A_2,DecisionFatigue_A_4).
 EXECUTE.
@@ -49,7 +44,6 @@ EXECUTE.
 COMPUTE Fatigue_score=MEAN(Fatigue_A, Fatigue_B, Fatigue_C).
 EXECUTE.
 
-## satisfaction için mena hesapladık 
 
 COMPUTE Satisfaction_A=MEAN(DecisionSatis_A_1,DecisionSatis_A_2,DecisionSatis_A_3).
 EXECUTE.
@@ -63,7 +57,6 @@ EXECUTE.
 COMPUTE Satisfaction_score=MEAN(Satisfaction_A,Satisfaction_B,Satisfaction_C).
 EXECUTE.
 
-intention mean hesapladık 
 
 COMPUTE Intention_A=MEAN(PurchaseIntention_A_1,PurchaseIntention_A_2,PurchaseIntention_A_3).
 EXECUTE.
@@ -77,7 +70,6 @@ EXECUTE.
 COMPUTE Intention_score=MEAN(Intention_A, Intention_B, Intention_C).
 EXECUTE.
 
-decision fatigue reliability 
 
 
 
@@ -102,7 +94,6 @@ RELIABILITY
   /STATISTICS=DESCRIPTIVE SCALE
   /SUMMARY=TOTAL.
 
-satis için reliability
 
 RELIABILITY
   /VARIABLES=DecisionSatis_A_1 DecisionSatis_A_2 DecisionSatis_A_3
@@ -125,7 +116,6 @@ RELIABILITY
   /STATISTICS=DESCRIPTIVE SCALE
   /SUMMARY=TOTAL.
 
-purhcase intention reliability
 
 RELIABILITY
   /VARIABLES=PurchaseIntention_A_1 PurchaseIntention_A_2 PurchaseIntention_A_3
@@ -148,18 +138,15 @@ RELIABILITY
   /STATISTICS=DESCRIPTIVE SCALE
   /SUMMARY=TOTAL.
 
-frequency 
 
 DATASET ACTIVATE DataSet1.
 FREQUENCIES VARIABLES=condition
   /ORDER=ANALYSIS.
 
-timingi tek columnda topladık 
 
 COMPUTE Decision_Time=MAX(Timing_A_Page_Submit,Timing_B_Page_Submit,Timing_C_Page_Submit).
 EXECUTE.
 
-descriptivese baktık 
 
 EXAMINE VARIABLES=Fatigue_score Satisfaction_score Intention_score Decision_Time BY condition
   /PLOT BOXPLOT STEMLEAF HISTOGRAM NPPLOT
@@ -169,7 +156,6 @@ EXAMINE VARIABLES=Fatigue_score Satisfaction_score Intention_score Decision_Time
   /MISSING LISTWISE
   /NOTOTAL.
 
-## MANOVA
 
 GLM Fatigue_score Satisfaction_score Intention_score BY condition
   /METHOD=SSTYPE(3)
